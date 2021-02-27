@@ -84,7 +84,7 @@ public class HomeFragment extends Fragment {
             public boolean onLongClick(View v) {
                 if (ventaSelected.getSalida() == null){
                     ventaSelected.setSalida(new Date());
-                    ventaSelected.setCosto(tiempoEstadia(ventaSelected.getSalida(), ventaSelected.getEntrada(), TimeUnit.MINUTES));
+                    ventaSelected.setCosto(tiempoEstadia(ventaSelected.getSalida(), ventaSelected.getEntrada(), TimeUnit.MINUTES)*25);
                     databaseReference.child("Venta").child(ventaSelected.getUid()).setValue(ventaSelected);
                     Toast.makeText(view.getContext(), "Salida", Toast.LENGTH_SHORT).show();
                 }else{
