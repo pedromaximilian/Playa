@@ -111,11 +111,11 @@ public class Venta {
         calendar.setTime(this.entrada);
         if (salida == null){
 
-            return patente +" Ent: " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE);
+            return patente +" Ent: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE);
         }else{
             Calendar calendarS = Calendar.getInstance();
             calendarS.setTime(this.salida);
-            return patente +" Ent: " + calendar.get(Calendar.HOUR) + ":" + calendar.get(Calendar.MINUTE)+" Sal: " + calendarS.get(Calendar.HOUR) + ":" + calendarS.get(Calendar.MINUTE);
+            return patente +" Ent: " + calendar.get(Calendar.HOUR_OF_DAY) + ":" + calendar.get(Calendar.MINUTE)+" Sal: " + calendarS.get(Calendar.HOUR) + ":" + calendarS.get(Calendar.MINUTE)+ " [$"+ this.costo + "]";
 
         }
 

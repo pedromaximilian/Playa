@@ -19,7 +19,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.playa.AdapterVenta;
 import com.example.playa.R;
 import com.example.playa.model.Venta;
 import com.google.firebase.FirebaseApp;
@@ -30,6 +33,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,6 +49,10 @@ public class HomeFragment extends Fragment {
     ArrayAdapter<Venta> ventaArrayAdapter;
     Venta ventaSelected;
 
+
+    RecyclerView rvLista;
+    AdapterVenta adapterVenta;
+
     Button btnEntrada;
     Button btnSalida;
     EditText etPatente;
@@ -51,6 +60,8 @@ public class HomeFragment extends Fragment {
     ListView lvEntradas;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
+
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -62,10 +73,17 @@ public class HomeFragment extends Fragment {
         btnEntrada = view.findViewById(R.id.btnEntrada);
         btnSalida = view.findViewById(R.id.btnSalida);
         etPatente = view.findViewById(R.id.etPatente);
-        lvEntradas = view.findViewById(R.id.lvLista);
+
+        rvLista = view.findViewById(R.id.rvLista);
+
 
         inicializarFirebase();
         listarDatos();
+
+        adapterVenta = new AdapterVenta(listaVentas);
+        rvLista.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
         btnSalida.setEnabled(false);
 
         btnEntrada.setOnClickListener(new View.OnClickListener() {
@@ -84,7 +102,11 @@ public class HomeFragment extends Fragment {
             public boolean onLongClick(View v) {
                 if (ventaSelected.getSalida() == null){
                     ventaSelected.setSalida(new Date());
-                    ventaSelected.setCosto(tiempoEstadia(ventaSelected.getSalida(), ventaSelected.getEntrada(), TimeUnit.MINUTES)*25);
+
+                    long minutos = tiempoEstadia(ventaSelected.getSalida(), ventaSelected.getEntrada());
+
+                    double costo = calculoEstadia(minutos);
+                    ventaSelected.setCosto(costo);
                     databaseReference.child("Venta").child(ventaSelected.getUid()).setValue(ventaSelected);
                     Toast.makeText(view.getContext(), "Salida", Toast.LENGTH_SHORT).show();
                 }else{
@@ -100,16 +122,48 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        lvEntradas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapterVenta.setOnclickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ventaSelected = (Venta) parent.getItemAtPosition(position);
-                etPatente.setText(ventaSelected.getPatente());
+            public void onClick(View v) {
+                //ventaSelected = (Venta) parent.getItemAtPosition(position);
+
+
+                etPatente.setText(listaVentas.get(rvLista.getChildAdapterPosition(v)).getPatente());
                 btnSalida.setEnabled(true);
             }
         });
 
+
+
         return view;
+    }
+
+
+    private void onItemVlic(){
+
+        ;
+
+
+    }
+
+    private double calculoEstadia(double minutos) {
+
+        double precio = 20;
+        double fraccion = 20;
+        minutos = Math.abs(minutos);
+
+        if (minutos <= 60) {
+            return  60;
+        } else {
+            if (minutos % fraccion == 0) {
+                return  (minutos / fraccion) * precio;
+            } else {
+                return Math.round(minutos/fraccion)*precio;
+            }
+
+        }
+
+
     }
 
     private void listarDatos() {
@@ -122,10 +176,10 @@ public class HomeFragment extends Fragment {
                     Venta v = objSnapshot.getValue(Venta.class);
                     listaVentas.add(v);
 
-                    ventaArrayAdapter = new ArrayAdapter<Venta>(getContext(), android.R.layout.simple_list_item_1, listaVentas);
+                    rvLista.setAdapter(adapterVenta);
 
-                    lvEntradas.setAdapter(ventaArrayAdapter);
                 }
+                adapterVenta.notifyDataSetChanged();
             }
 
             @Override
@@ -140,7 +194,6 @@ public class HomeFragment extends Fragment {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
     }
-
 
     private boolean grabarEntrada(String patente) {
 
@@ -166,11 +219,12 @@ public class HomeFragment extends Fragment {
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
-    public static double tiempoEstadia(Date entrada, Date salida, TimeUnit timeUnit) {
-        long milisegundos = - entrada.getTime() - salida.getTime();
+    public static long tiempoEstadia(Date entrada, Date salida) {
+        long diff = salida.getTime() - entrada.getTime();
+        long diffMinutes = (diff / 1000) / 60;
 
-        long minutos = timeUnit.convert(milisegundos,TimeUnit.MILLISECONDS);
-        return minutos%30;
+
+        return diffMinutes;
     }
 
 
