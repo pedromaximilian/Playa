@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "104622505255",
+    "firebase_url": "https://playa-9856-default-rtdb.firebaseio.com",
+    "project_id": "playa-9856",
+    "storage_bucket": "playa-9856.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:104622505255:android:a167b888ead0d02833bd02",
+        "android_client_info": {
+          "package_name": "com.example.playa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "104622505255-m9a4n8oalitv7takl0qri15j7mkqnb3l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.playa",
+            "certificate_hash": "f4719158dca3d1862e9211600a971b0ab630c1b1"
+          }
+        },
+        {
+          "client_id": "104622505255-qb13j8fsmi55fidm7disgsan6946o53n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADAHi1mDGI1Fmn4Cz_3hJvobEsMWiDHOE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "104622505255-qb13j8fsmi55fidm7disgsan6946o53n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
