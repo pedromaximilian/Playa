@@ -7,18 +7,37 @@
     android:orientation="vertical"
     tools:context=".ui.home.HomeFragment" >
 
-    <TextClock
-        android:id="@+id/tvTitulo"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="89dp"
-        android:textSize="20dp"
-        android:format24Hour="MMM d,     hh:mm:ss"
-        android:textAlignment="center" />
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="10dp">
+
+        <TextClock
+            android:id="@+id/tvTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:format24Hour="MMM d,     hh:mm:ss"
+            android:paddingLeft="20dp"
+            android:textAlignment="center"
+            android:textSize="24dp" />
+
+        <TextView
+            android:id="@+id/tvAutos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingRight="20dp"
+            android:textAlignment="textEnd"
+            android:textSize="24dp" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/etPatente"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Patente"
         android:inputType="textPersonName"
@@ -28,13 +47,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="114dp"
+        android:layout_height="70dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btnEntrada"
             android:layout_width="wrap_content"
-            android:layout_height="94dp"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
@@ -45,7 +64,7 @@
         <Button
             android:id="@+id/btnSalida"
             android:layout_width="wrap_content"
-            android:layout_height="94dp"
+            android:layout_height="60dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_weight="1"
@@ -54,14 +73,21 @@
             android:textColor="@color/white" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="19dp"
+        android:background="?android:attr/listDivider" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvLista"
